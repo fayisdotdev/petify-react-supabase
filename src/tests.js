@@ -1,22 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
 import Products from "./components/Products";
-import Pets from "./components/Pets";
 
 function Home() {
   return <h2>Welcome to Petify 🐾</h2>;
-}
-
-// function Products() {
-//   return <h2>Our Products 🧸</h2>;
-// }
-
-// function Pets() {
-//   return <h2>Available Pets 🐕</h2>;
-// }
-
-function Contact() {
-  return <h2>Contact Us 📞</h2>;
 }
 
 function App() {
@@ -25,15 +11,11 @@ function App() {
       <nav style={{ display: "flex", gap: "15px" }}>
         <Link to="/">Home</Link>
         <Link to="/products">Products</Link>
-        <Link to="/pets">Pets</Link>
-        <Link to="/contact">Contact</Link>
       </nav>
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/pets" element={<Pets />} />
-        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );
