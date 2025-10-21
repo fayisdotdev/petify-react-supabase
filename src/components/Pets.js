@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from '../supabaseClient';
+import { supabase } from "../supabaseClient";
+import "./Pets.css";
 
 function Pets() {
   const [pets, setPets] = useState([]);
@@ -22,20 +23,11 @@ function Pets() {
   if (!pets.length) return <p>No pets available.</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="pets">
       <h2>Available Pets 🐕</h2>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
+      <div className="pet-grid">
         {pets.map((pet) => (
-          <div
-            key={pet.id}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "10px",
-              padding: "15px",
-              width: "150px",
-              textAlign: "center",
-            }}
-          >
+          <div className="pet-card" key={pet.id}>
             <h4>{pet.name}</h4>
             <p>Type: {pet.type}</p>
             <p>Age: {pet.age}</p>
