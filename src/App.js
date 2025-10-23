@@ -1,12 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
-import Products from "./components/Products";
-import Pets from "./components/Pets";
+import Products from "./components/products/Products";
+import Pets from "./components/pets/Pets";
 import Signup from "./auth/signup";
 import Login from "./auth/login";
-import AdminHome from "./pages/AdminHome";       // if file is AdminHome.js
-import CustomerHome from "./pages/CustomerHome"; // if file is CustomerHome.js
-
+import AdminHome from "./components/pages/AdminHome"; // if file is AdminHome.js
+import CustomerHome from "./components/pages/CustomerHome"; // if file is CustomerHome.js
 
 function Home() {
   return <h2>Welcome to Petify 🐾</h2>;
