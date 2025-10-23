@@ -1,0 +1,46 @@
+-- Drop and recreate the users table (safe for development)
+drop table if exists public.users cascade;
+
+create table public.users (
+  id uuid primary key references auth.users(id) on delete cascade,
+  created_at timestamp with time zone not null default now(),
+  email text not null unique,
+  role text not null check (role in ('customer', 'admin'))
+);
+
+-- Enable Row Level Security
+alter table public.users enable row level security;
+
+-- Safe function to check if a user is an admin
+create or replace function public.is_admin(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.users where id = uid and role = 'admin'
+  );
+$$;
+
+-- RLS Policies
+create policy "Users can insert their own profile"
+on public.users
+for insert
+with check (auth.uid() = id);
+
+create policy "Users can view themselves"
+on public.users
+for select
+using (auth.uid() = id);
+
+create policy "Admins can view all users"
+on public.users
+for select
+using (public.is_admin(auth.uid()));
+
+create policy "Users can update their own profile"
+on public.users
+for update
+using (auth.uid() = id)
+with check (auth.uid() = id);

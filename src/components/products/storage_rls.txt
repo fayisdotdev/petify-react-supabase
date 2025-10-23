@@ -1,0 +1,34 @@
+-- Ensure bucket exists
+-- Go to Supabase Dashboard > Storage > Create Bucket named "product-images"
+-- Then apply RLS policies below.
+
+-- Enable RLS
+alter table storage.objects enable row level security;
+
+-- Drop old policy if needed
+drop policy if exists "Allow public read access" on storage.objects;
+
+-- Allow everyone to view images in the "product-images" bucket
+create policy "Allow public read access"
+on storage.objects
+for select
+to public
+using (bucket_id = 'product-images');
+
+-- Allow admins to upload/delete images
+create policy "Admins can manage product-images"
+on storage.objects
+for all
+to authenticated
+using (
+  bucket_id = 'product-images' and
+  exists (
+    select 1 from public.users where id = auth.uid() and role = 'admin'
+  )
+)
+with check (
+  bucket_id = 'product-images' and
+  exists (
+    select 1 from public.users where id = auth.uid() and role = 'admin'
+  )
+);
